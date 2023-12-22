@@ -1,4 +1,7 @@
-using FirstCore.Models;
+
+using CodeFirst.Services;
+using CodeFirst.Services.IServices;
+using FirstCore.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,9 +14,19 @@ var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 // SQL + EF core
 builder.Services.AddDbContext<TestAvinashContext>(op => op.UseSqlServer(conn)); // Impo
 
+// Dependency injection
+builder.Services.AddTransient<ITransient, UserMethod>();
+builder.Services.AddScoped<IScoped, UserMethod>();
+builder.Services.AddSingleton<ISingleton, UserMethod>();
+
 //////////////////////////////////////////////////////////////////
 ///
 var app = builder.Build();
+
+Console.WriteLine(app.Environment.EnvironmentName);
+Console.WriteLine(app.Environment.ApplicationName);
+Console.WriteLine(app.Environment.ContentRootPath);
+Console.WriteLine(app.Environment.WebRootPath);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
