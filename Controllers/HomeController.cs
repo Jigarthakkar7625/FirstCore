@@ -1,5 +1,6 @@
 ﻿
 using CodeFirst.Services.IServices;
+using FirstCore.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -10,7 +11,7 @@ namespace FirstCore.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        //private readonly TestAvinashContext _dbcontext;
+        private readonly TestAvinashContext _dbcontext;
         private readonly IHostingEnvironment _env;
 
         private readonly ITransient _transientService1;
@@ -24,7 +25,7 @@ namespace FirstCore.Controllers
         private readonly ISingleton _singletonService2;
 
 
-        public HomeController(ILogger<HomeController> logger, IHostingEnvironment env, ITransient transientService1, ITransient transientService2, IScoped scopedService1, IScoped scopedService2, ISingleton singletonService1, ISingleton singletonService2)
+        public HomeController(ILogger<HomeController> logger, IHostingEnvironment env, ITransient transientService1, ITransient transientService2, IScoped scopedService1, IScoped scopedService2, ISingleton singletonService1, ISingleton singletonService2, TestAvinashContext testAvinashContext)
         {
             _logger = logger;
             //_dbcontext = dbcontext;
@@ -37,6 +38,7 @@ namespace FirstCore.Controllers
 
             _singletonService1 = singletonService1;
             _singletonService2 = singletonService2;
+            _dbcontext = testAvinashContext;
         }
 
         public IActionResult Index()
@@ -55,8 +57,7 @@ namespace FirstCore.Controllers
 
 
 
-            //var abc = _dbcontext.UserAddresses.ToList();
-
+            
             return View();
         }
 

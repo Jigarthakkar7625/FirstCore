@@ -3,6 +3,7 @@ using CodeFirst.Services;
 using CodeFirst.Services.IServices;
 using FirstCore.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,10 @@ builder.Services.AddDbContext<TestAvinashContext>(op => op.UseSqlServer(conn)); 
 builder.Services.AddTransient<ITransient, UserMethod>();
 builder.Services.AddScoped<IScoped, UserMethod>();
 builder.Services.AddSingleton<ISingleton, UserMethod>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 //////////////////////////////////////////////////////////////////
 ///
